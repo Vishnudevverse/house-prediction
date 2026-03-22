@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
 import streamlit as st
 import pandas as pd
 import joblib
@@ -33,7 +35,7 @@ currency_choice = st.sidebar.radio("Select Display Currency", ["USD ($)", "INR (
 
 # Dynamic Exchange Rate Field
 if currency_choice == "INR (₹)":
-    exchange_rate = st.sidebar.number_input("Current USD to INR Rate", min_value=50.0, max_value=120.0, value=83.5, step=0.1)
+    exchange_rate = st.sidebar.number_input("Current USD to INR Rate", min_value=50.0, max_value=120.0, value=94.01, step=0.1)
     currency_symbol = "₹"
 else:
     exchange_rate = 1.0
@@ -86,6 +88,34 @@ with col2:
             "Price": f"{currency_symbol} {final_prediction:,.2f}"
         })
         st.success("✅ Prediction successful! Added to your comparison board.")
+        # --- NEW: MODEL INSIGHTS CHART ---
+        st.divider()
+        st.subheader("🧠 Model Insights: What drove this price?")
+        st.markdown("This chart shows the **Linear Regression Coefficients**. It reveals how much weight the AI gave to each property metric when calculating the final price.")
+        
+        # Extract coefficients from the Linear Regression model
+        coefficients = model.coef_
+        
+        # Create a DataFrame for plotting
+        importance_df = pd.DataFrame({
+            'Feature': features,
+            'Weight (Coefficient)': coefficients
+        }).sort_values(by='Weight (Coefficient)', ascending=False)
+        
+        # Create a beautiful Seaborn horizontal bar chart
+        fig, ax = plt.subplots(figsize=(8, 4))
+        
+        # Use a diverging color palette: Green for positive impact, Red for negative
+        colors = ['#2ecc71' if x > 0 else '#e74c3c' for x in importance_df['Weight (Coefficient)']]
+        sns.barplot(data=importance_df, x='Weight (Coefficient)', y='Feature', ax=ax, palette=colors)
+        
+        # Styling the chart
+        ax.set_title("Feature Impact on House Price", fontweight='bold')
+        ax.set_xlabel("Impact Value (Positive = Increases Price)")
+        ax.set_ylabel("")
+        
+        # Render the plot in Streamlit
+        st.pyplot(fig)
     else:
         st.info("Adjust the metrics in the sidebar and click 'Predict Price'.")
 
