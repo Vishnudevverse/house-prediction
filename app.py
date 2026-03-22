@@ -25,7 +25,7 @@ except FileNotFoundError:
     st.stop()
 
 # --- UI HEADER ---
-st.title("🏡 Advanced House Price Prediction System")
+st.title("🏡 House Price Prediction System")
 st.markdown("Estimate the market price of a property using Machine Learning.")
 st.divider()
 
