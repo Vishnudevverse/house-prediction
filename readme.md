@@ -43,6 +43,7 @@ house-price-predictor/
 ├── app.py                      # Frontend Streamlit application
 └── README.md                   # Project documentation
 ## 🚀 How to Run the Project
+```
 
 **Step 1: Install Dependencies**
 Ensure you have Python installed. Open your terminal and install the required libraries:
@@ -66,7 +67,23 @@ Start the Streamlit server to interact with the application.
 streamlit run app.py
 ```
 
-## 🧠 Model Details
-This system uses **Linear Regression** to predict a continuous target variable (`Price`). The formula used by the model is:
-`y = m1x1 + m2x2 + ... + mnxn + b`
-Where `y` is the predicted price, `x` represents the features (e.g., Rooms, Population), `m` represents the learned coefficients (weights), and `b` is the intercept. 
+## 🧠 Model Details & Mathematical Intuition
+
+This system implements **Multiple Linear Regression** to predict a continuous target variable (`Price`). While simple linear regression uses one input, this project calculates the market value using multiple independent variables simultaneously.
+
+### The Mathematics
+
+The model calculates a "Best Fit" hyperplane to minimize the distance between actual data points and predicted values. The core equation used is:
+
+`Price = (m₁ × Income) + (m₂ × Age) + (m₃ × Rooms) + (m₄ × Bedrooms) + (m₅ × Population) + b`
+
+  * **The Weights (m₁...m₅):** These are the exact coefficients calculated by the AI during training. A positive coefficient means that as the feature's value increases, the house price increases.
+  * **The Intercept (b):** The theoretical baseline price if all other features were zero.
+
+### Why Multiple Linear Regression?
+
+This algorithm was specifically chosen for this mini-project because:
+
+1.  **Transparent & Explainable (XAI):** Unlike "Black Box" models (like complex Neural Networks), we can extract the exact coefficients to explain *why* a specific price was predicted.
+2.  **Highly Efficient:** It trains rapidly on structured tabular data without requiring massive computational resources.
+3.  **Statistical Validity:** It provides measurable accuracy metrics (like R² scores) to statistically prove the model's reliability.
