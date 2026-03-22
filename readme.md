@@ -42,8 +42,9 @@ house-price-predictor/
 ├── train_model.py              # Backend script for training the model
 ├── app.py                      # Frontend Streamlit application
 └── README.md                   # Project documentation
-## 🚀 How to Run the Project
 ```
+
+## 🚀 How to Run the Project
 
 **Step 1: Install Dependencies**
 Ensure you have Python installed. Open your terminal and install the required libraries:
